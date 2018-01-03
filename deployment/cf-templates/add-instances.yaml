@@ -27,7 +27,7 @@ Parameters:
   AMIID:
     Description: This is the AMI that will be used
     Type: String
-    Default: ami-08c64c72
+    Default: ami-4524733f
   EC2KeyPair:
     Description: This is used to ssh to the node.
     Type: String

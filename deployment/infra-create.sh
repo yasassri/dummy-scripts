@@ -21,7 +21,7 @@
 
 stackName=TGdummy
 keyPairName=tgDummy
-amiId=ami-08c64c72
+amiId=ami-4524733f
 
 ## This script will create the CF infrastructure
 echo "Infrastructure creation Initiated"
@@ -37,6 +37,12 @@ chmod 600 key.pem
 # Create the Stack || --parameters ParameterKey=am-id,ParameterValue=ami-08c64c72
 aws cloudformation create-stack --stack-name $stackName --template-body file://./cf-templates/add-instances.yaml --parameters ParameterKey=AMIID,ParameterValue=$amiId
 
-# TO-DO hold the script till the instance is in running state, check https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html
+# Waiting till the stack is created
+aws cloudformation wait stack-create-complete --stack-name $stackName
+
+
+# Write the public IP of the instance to a endpoints file
+# This will only work if you have a single output. May not work for other cases
+aws cloudformation describe-stacks --stack-name $stackName | grep -o -P '(?<=OutputValue": ").*(?=")' > endpoints
 
 
