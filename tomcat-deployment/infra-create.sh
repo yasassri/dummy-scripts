@@ -22,6 +22,7 @@
 stackName=TGdummy
 keyPairName=tgDummy
 amiId=ami-4524733f
+outputFileName=infra_eps
 
 ## This script will create the CF infrastructure
 echo "Infrastructure creation Initiated"
@@ -41,8 +42,8 @@ aws cloudformation create-stack --stack-name $stackName --template-body file://.
 aws cloudformation wait stack-create-complete --stack-name $stackName
 
 
-# Write the public IP of the instance to a endpoints file
+# Write the public IP of the instance to a file
 # This will only work if you have a single output. May not work for other cases
-aws cloudformation describe-stacks --stack-name $stackName | grep -o -P '(?<=OutputValue": ").*(?=")' > endpoints
+aws cloudformation describe-stacks --stack-name $stackName | grep -o -P '(?<=OutputValue": ").*(?=")' > $outputFileName
 
 
